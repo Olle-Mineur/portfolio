@@ -78,6 +78,11 @@ export default function Page() {
       darkImage: "https://skillicons.dev/icons?i=cpp&theme=dark",
     },
     {
+      name: "C#",
+      image: "https://skillicons.dev/icons?i=cs&theme=light",
+      darkImage: "https://skillicons.dev/icons?i=cs&theme=dark",
+    },
+    {
       name: "SQL",
       image: "https://skillicons.dev/icons?i=postgres&theme=light",
       darkImage: "https://skillicons.dev/icons?i=postgres&theme=dark",

@@ -68,7 +68,7 @@ export default function Page() {
                             The web application was made with React, Typescript, Next.js, TailwindCSS. We also used some testing frameworks like Lighthouse, Jest and Cypress.
                         </p>
                         <p className="text-sm">
-                            The thesis can be found <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-205566" className="blue-link">here</a>.
+                            The thesis can be found <a href="https://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-205566" className="blue-link">here</a>. Alternative <a href="/Olle_Mineur_Bachelor.pdf" className="blue-link">here as PDF</a>
                         </p>
                         <p className="text-sm">
                             The project was made in 2024.
