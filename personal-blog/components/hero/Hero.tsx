@@ -2,12 +2,16 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 
 export default function Hero() {
   const rootRef = useRef<HTMLDivElement>(null);
   const avatarRef = useRef<HTMLDivElement>(null);
+
+  const fullName = "Olle Mineur";
+  const [typedName, setTypedName] = useState("");
+  const [typingDone, setTypingDone] = useState(false);
 
   useLayoutEffect(() => {
     if (!rootRef.current) return;
@@ -17,22 +21,22 @@ export default function Hero() {
       window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
 
     const ctx = gsap.context(() => {
-      if (reduceMotion) return;
+      if (!reduceMotion) {
+        gsap.fromTo(
+          ".hero-reveal",
+          { autoAlpha: 0, y: 14 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power3.out",
+            stagger: 0.08,
+            clearProps: "opacity,visibility",
+          }
+        );
+      }
 
-      gsap.fromTo(
-        ".hero-reveal",
-        { autoAlpha: 0, y: 14 },
-        {
-          autoAlpha: 1,
-          y: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.08,
-          clearProps: "opacity,visibility",
-        }
-      );
-
-      if (avatarRef.current) {
+      if (!reduceMotion && avatarRef.current) {
         gsap.to(avatarRef.current, {
           y: -10,
           duration: 2.4,
@@ -41,13 +45,42 @@ export default function Hero() {
           repeat: -1,
         });
       }
+
+      // typewriter (slower)
+      setTypedName(reduceMotion ? fullName : "");
+      setTypingDone(reduceMotion);
+
+      if (reduceMotion) return;
+
+      const counter = { i: 0 };
+      let lastLen = 0;
+
+      const duration = Math.max(1.8, fullName.length * 0.16); // slower
+
+      gsap.to(counter, {
+        i: fullName.length,
+        duration,
+        ease: "none",
+        delay: 0.25,
+        onUpdate: () => {
+          const len = Math.round(counter.i);
+          if (len !== lastLen) {
+            lastLen = len;
+            setTypedName(fullName.slice(0, len));
+          }
+        },
+        onComplete: () => setTypingDone(true),
+      });
     }, rootRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={rootRef} className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/40 backdrop-blur-md">
+    <section
+      ref={rootRef}
+      className="relative overflow-hidden rounded-3xl border border-slate-200/70 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/40 backdrop-blur-md"
+    >
       <div className="hero-blob hero-blob--1" aria-hidden />
       <div className="hero-blob hero-blob--2" aria-hidden />
       <div className="hero-grid" aria-hidden />
@@ -59,9 +92,27 @@ export default function Hero() {
           </p>
 
           <h1 className="hero-reveal mt-3 text-3xl sm:text-4xl font-bold leading-tight">
-            Olle Mineur
-            <span className="block mt-2 text-base sm:text-lg font-normal text-slate-700 dark:text-slate-200">
-              Computer Science & Engineering student with an interest in Embedded and Security. Building web apps in the free time.
+            <span className="inline-flex items-baseline">
+              <span>{typedName}</span>
+              <span
+                aria-hidden
+                className={[
+                  "hero-cursor",
+                  typingDone ? "opacity-0" : "opacity-100",
+                ].join(" ")}
+              />
+            </span>
+
+            {/* Always render subtitle to reserve height (no resize); just fade it in */}
+            <span
+              className={[
+                "block mt-2 text-base sm:text-lg font-normal text-slate-700 dark:text-slate-200",
+                "transition-all duration-300",
+                typingDone ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1",
+              ].join(" ")}
+            >
+              Computer Science & Engineering student with an interest in Embedded
+              and Security. Building web apps in the free time.
             </span>
           </h1>
 
@@ -91,9 +142,15 @@ export default function Hero() {
           </p>
         </div>
 
-        <div ref={avatarRef} className="hero-reveal w-full md:w-2/5 flex justify-center">
+        <div
+          ref={avatarRef}
+          className="hero-reveal w-full md:w-2/5 flex justify-center"
+        >
           <div className="relative">
-            <div className="absolute inset-0 rounded-full blur-2xl opacity-70 hero-avatar-glow" aria-hidden />
+            <div
+              className="absolute inset-0 rounded-full blur-2xl opacity-70 hero-avatar-glow"
+              aria-hidden
+            />
             <Image
               className="relative rounded-full border border-slate-200/70 dark:border-slate-700/60 shadow-xl"
               src="/profile_picture.jpg"

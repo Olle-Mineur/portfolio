@@ -109,6 +109,17 @@ body {
   .hero-avatar-glow {
     background: conic-gradient(from 180deg, #22d3ee, #a78bfa, #fb7185, #22d3ee);
   }
+  .hero-cursor {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1em;
+    margin-left: 0.12em;
+    background: currentColor;
+    border-radius: 2px;
+    transform: translateY(0.08em);
+    animation: hero-cursor-blink 0.9s step-end infinite;
+    transition: opacity 200ms ease;
+  }
 }
 
 @keyframes hero-drift {
@@ -117,5 +128,16 @@ body {
   }
   to {
     transform: translate3d(22px, -18px, 0) scale(1.06);
+  }
+}
+
+@keyframes hero-cursor-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
   }
 }

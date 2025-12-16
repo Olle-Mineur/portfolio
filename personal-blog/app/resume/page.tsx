@@ -209,48 +209,59 @@ export default function Page() {
   ];
 
   return (
-    <main className="flex flex-wrap flex-col content-center font-mono my-4">
-      <div className="flex flex-row">
-        <Image
-          className="mr-8 circular-image"
-          src="/profile_picture.jpg"
-          alt="Picture of Olle Mineur"
-          width={150}
-          height={150}
-          priority
-        />
-        <h1 className="font-bold text-left my-auto">
-          Olle Mineur
-          <br />
-          <span className="font-light">Student @ Linköping University</span>
-          <br />
-          <span className="font-dark text-xs">Favorite Languages: </span>
-          <div className="flex flex-row flex-wrap">
-            {favoriteProgrammingLanguages.map((technology, techIndex) =>
-              technology.image ? (
-                <picture key={techIndex}>
-                  <source
-                    srcSet={technology.darkImage}
-                    media="(prefers-color-scheme: dark)"
-                  />
-                  <Image
-                    className="mr-2 mb-2"
-                    src={technology.image}
-                    alt={technology.name}
-                    width={30}
-                    height={30}
-                    priority
-                  />
-                </picture>
-              ) : (
-                <p key={techIndex} className="text-sm font-bold">
-                  {technology.name}
-                </p>
-              )
-            )}
+    <main className="font-mono my-6">
+      <header className="w-full max-w-5xl mx-auto flex flex-col gap-4 rounded-3xl border border-slate-200/70 dark:border-slate-700/60 bg-white/60 dark:bg-slate-900/40 backdrop-blur-md p-6">
+        <div className="flex flex-col sm:flex-row gap-5 sm:items-center">
+          <Image
+            className="circular-image border border-slate-200/70 dark:border-slate-700/60 shadow-md"
+            src="/profile_picture.jpg"
+            alt="Picture of Olle Mineur"
+            width={130}
+            height={130}
+            priority
+          />
+
+          <div className="min-w-0">
+            <h1 className="text-2xl sm:text-3xl font-bold leading-tight">
+              Olle Mineur
+            </h1>
+            <p className="text-sm text-slate-700 dark:text-slate-200">
+              Student @ Linköping University
+            </p>
+
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="text-xs text-slate-600 dark:text-slate-300">
+                Favorite languages:
+              </span>
+
+              {favoriteProgrammingLanguages.map((technology, techIndex) =>
+                technology.image ? (
+                  <div key={techIndex} className="group relative">
+                    <span className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900/90 px-2 py-1 text-[10px] font-bold text-white opacity-0 transition-opacity group-hover:opacity-100">
+                      {technology.name}
+                    </span>
+
+                    <picture className="chip">
+                      <source srcSet={technology.darkImage} media="(prefers-color-scheme: dark)" />
+                      <Image
+                        src={technology.image}
+                        alt={technology.name}
+                        width={22}
+                        height={22}
+                        priority
+                      />
+                    </picture>
+                  </div>
+                ) : (
+                  <span key={techIndex} className="chip text-xs font-semibold">
+                    {technology.name}
+                  </span>
+                )
+              )}
+            </div>
           </div>
-        </h1>
-      </div>
+        </div>
+      </header>
       <div className="flex flex-wrap flex-col">
         <div className="my-2">
           <div className="flex flex-col my-2">
@@ -261,18 +272,13 @@ export default function Page() {
                 <div className="flex flex-row flex-wrap gap-x-8 items-center align-middle content-center">
                   {knowledgeGroup.technologies.map((technology, techIndex) =>
                     technology.image ? (
-                      <div
-                        key={techIndex}
-                        className="group my-1 w-[50px] h-[50px]"
-                      >
-                        <p className="opacity-0 group-hover:opacity-100 text-center text-xs font-bold text-nowrap">
+                      <div key={techIndex} className="group relative my-1 w-[52px] h-[52px]">
+                        <span className="pointer-events-none absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-900/90 px-2 py-1 text-[10px] font-bold text-white opacity-0 transition-opacity group-hover:opacity-100">
                           {technology.name}
-                        </p>
-                        <picture>
-                          <source
-                            srcSet={technology.darkImage}
-                            media="(prefers-color-scheme: dark)"
-                          />
+                        </span>
+
+                        <picture className="chip w-full h-full justify-center p-0">
+                          <source srcSet={technology.darkImage} media="(prefers-color-scheme: dark)" />
                           <Image
                             className="mx-auto"
                             src={technology.image}
