@@ -256,26 +256,28 @@ export default function Page() {
                 <div className="flex flex-row flex-wrap gap-x-8 items-center align-middle content-center">
                   {knowledgeGroup.technologies.map((technology, techIndex) =>
                     technology.image ? (
-                      <picture
+                      <div
                         key={techIndex}
                         className="group my-1 w-[50px] h-[50px]"
                       >
                         <p className="opacity-0 group-hover:opacity-100 text-center text-xs font-bold text-nowrap">
                           {technology.name}
                         </p>
-                        <source
-                          srcSet={technology.darkImage}
-                          media="(prefers-color-scheme: dark)"
-                        />
-                        <Image
-                          className="mx-auto"
-                          src={technology.image}
-                          alt={technology.name}
-                          width={30}
-                          height={30}
-                          priority
-                        />
-                      </picture>
+                        <picture>
+                          <source
+                            srcSet={technology.darkImage}
+                            media="(prefers-color-scheme: dark)"
+                          />
+                          <Image
+                            className="mx-auto"
+                            src={technology.image}
+                            alt={technology.name}
+                            width={30}
+                            height={30}
+                            priority
+                          />
+                        </picture>
+                      </div>
                     ) : (
                       <p key={techIndex} className="text-sm font-bold">
                         {technology.name}
@@ -327,8 +329,8 @@ export default function Page() {
                 different programs at Linköping University, so we can help each
                 other with different knowledge.
               </p>
-              <p className="text-sm my-2">
-                Projects I have worked with:
+              <div className="text-sm my-2">
+                <p>Projects I have worked with:</p>
                 <ul className="list-disc list-inside">
                   <li>
                     A web application for inventory management at the office.
@@ -344,7 +346,7 @@ export default function Page() {
                     simple Express backend.
                   </li>
                 </ul>
-              </p>
+              </div>
               <p className="text-sm my-2">
                 Technologies: Angular, .Net, React, Express, Docker
               </p>
@@ -579,7 +581,6 @@ export default function Page() {
           </div>
         </div>
       </div>
-      <Footer />
     </main>
   );
 }
